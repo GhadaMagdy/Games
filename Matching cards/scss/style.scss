@@ -1,0 +1,28 @@
+$body-color:#696969;
+$game-box-background:#4B0082;
+
+body{
+    background-color: $body-color;
+}
+.container{
+    vertical-align: middle;
+}
+.game-box{
+    background-color: $game-box-background;
+    width: 500px;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+.shape{
+    background: yellowgreen;
+    width: 100%;
+    height: 150px;
+    text-align: center;
+    vertical-align: middle;
+    transition: all 3s;
+}
+.shape.active{
+    transform: rotateY(180deg);
+}

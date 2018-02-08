@@ -1,0 +1,17 @@
+{
+  "name": "matching",
+  "version": "1.0.0",
+  "description": "matching game by javaScript",
+  "main": "logic.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "gulp-watch-sass": "^1.4.0"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "author": "ghada",
+  "license": "ISC"
+}
