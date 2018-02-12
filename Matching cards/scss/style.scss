@@ -7,7 +7,7 @@ body{
 .container{
     vertical-align: middle;
 }
-.game-box{
+#game-box{
     background-color: $game-box-background;
     width: 500px;
     padding: 20px;
@@ -20,9 +20,30 @@ body{
     width: 100%;
     height: 150px;
     text-align: center;
-    vertical-align: middle;
     transition: all 3s;
+    color:#fff;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transform: rotateY(180deg);
+    
+}
+.shape .shape-icon{
+    display: none;
 }
 .shape.active{
-    transform: rotateY(180deg);
+    transform: rotateY(360deg);
+}
+.shape.active .shape-icon{
+    display: block;
+}
+.matched{
+    display: none;
+}
+.win{
+    color:green;
+    display: none;
+    text-align: center;
+}
+.win.active{
+    display:block;
 }
