@@ -4,14 +4,14 @@ $(function () {
         shapeList: [
             {
                 id: 1,
-                img: "R",
+                img: "fa fa-car",
                 count: 0,
                 flag: false,
                 clicked: 0
             },
             {
                 id: 2,
-                img: "E",
+                img: "fa fa-camera",
                 count: 0,
                 flag: false,
                 clicked: 0
@@ -19,15 +19,14 @@ $(function () {
             },
             {
                 id: 3,
-                img: "Z",
+                img: "fa fa-child",
                 count: 0,
                 flag: false,
                 clicked: 0
-
             },
             {
                 id: 4,
-                img: "B",
+                img: "fa fa-balance-scale",
                 count: 0,
                 flag: false,
                 clicked: 0
@@ -35,7 +34,7 @@ $(function () {
             },
             {
                 id: 5,
-                img: "K",
+                img: "fa fa-university",
                 count: 0,
                 flag: false,
                 clicked: 0
@@ -43,7 +42,7 @@ $(function () {
             },
             {
                 id: 6,
-                img: "L",
+                img: "fa fa-bicycle",
                 count: 0,
                 flag: false,
                 clicked: 0
@@ -63,14 +62,14 @@ $(function () {
             this.render();
         },
         render: function () {
-
-
+            var counter=0;
             for (var i = 0; i < (this.shapeList.length * 2) / 3; i++) {
 
                 var divrow = document.createElement('div');
                 $(divrow).addClass('row');
                 this.gamecontainer.append(divrow);
                 for (var j = 0; j < 3; j++) {
+                    counter++;
                     do {
 
                         var currentItem = this.shapeList[Math.floor(Math.random() * this.shapeList.length)];
@@ -79,23 +78,28 @@ $(function () {
                         currentItem.count++;
                         var col = document.createElement('div');
                         $(col).addClass('col-xs-4 col-md-4');
+                        var shapeContainer = document.createElement('div');
+                        $(shapeContainer).addClass('shape-container');
+                                                
                         var shape = document.createElement('div');
                         $(shape).addClass('shape');
-                        $(shape).addClass('shape' + currentItem.id);
-                        $(shape).append('<h2 class="shape-icon">' + currentItem.img + '</h2>');
+                        $(shape).addClass('shape' + currentItem.id);   
+                        $(shape).append('<div class="side"></div>');                                            
+                        $(shape).append('<div class="side back"><i class="'+ currentItem.img +'" aria-hidden="true"></i></div>');
+                        $(shape).attr('position',counter);
                         shape.addEventListener("click", function (item) {
 
                             return function () {
                                 if (item.clicked == 0) {
 
-                                    if (octupus.getCurrent() == null) {
-                                        octupus.setCurrent(item);
+                                    if (octupus.getCurrent().item == null) {
+                                        octupus.setCurrent(item,shape);
                                         item.flag = true;
                                         item.clicked++;
                                         $(this).toggleClass('active');
 
                                     }
-                                    else if (item.id == octupus.getCurrent().id) {
+                                    else if (item.id == octupus.getCurrent().item.id && $(shape).attr('position')!=$(octupus.getCurrent().shape).attr('position')) {
                                         $(this).toggleClass('active');
                                         setTimeout(function () { $('.shape' + item.id).addClass('matched'); }, 2000);
                                         octupus.removeItem(item);
@@ -109,7 +113,7 @@ $(function () {
 
 
                                 }
-                                else if (item.id == octupus.getCurrent().id) {
+                                else if (item.id == octupus.getCurrent().item.id && $(shape).attr('position')!=$(octupus.getCurrent().shape).attr('position')) {
                                     $(this).toggleClass('active');
                                     setTimeout(function () { $('.shape' + item.id).addClass('matched'); }, 2000);
                                     octupus.removeItem(item);
@@ -126,7 +130,8 @@ $(function () {
 
 
                         }(currentItem))
-                        $(col).append(shape);
+                        $(shapeContainer).append(shape);
+                        $(col).append(shapeContainer);
                         $(divrow).append(col);
                     }
 
@@ -143,7 +148,7 @@ $(function () {
     }
 
     var octupus = {
-     
+        currentclickedShape:null,
         init: function () {
             view.init();
         },
@@ -151,11 +156,14 @@ $(function () {
             return model.getList();
         },
 
-        setCurrent: function (_currentClicked) {
+        setCurrent: function (_currentClicked,shape) {
             model.currentClicked = _currentClicked;
+            this.currentclickedShape=shape;
         },
         getCurrent: function () {
-            return model.currentClicked;
+            return {item:model.currentClicked,
+                shape:this.currentclickedShape}
+             
         },
         removeItem: function (item) {
             var list=model.getList();
